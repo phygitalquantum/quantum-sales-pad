@@ -1393,13 +1393,22 @@
                     
                     <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 20px;">
                         <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Kilómetros Recorridos al Año</label>
-                            <input type="number" id="kmAnual" value="7300" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
-                            <div style="font-size: 11px; color: var(--text-gray); margin-top: 4px;">20 km/día × 365 días</div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Kilómetros Recorridos</label>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <input type="number" id="kmPeriodo" value="600" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                                <select id="periodo" onchange="actualizarPeriodo()" style="padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px; min-width: 120px;">
+                                    <option value="mes">al Mes</option>
+                                    <option value="anio" selected>al Año</option>
+                                </select>
+                            </div>
+                            <div style="font-size: 11px; color: var(--text-gray); margin-top: 4px;">
+                                <span id="kmHelp">20 km/día × 365 días = 7,300 km/año</span>
+                            </div>
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Precio Gasolina (Bs/litro)</label>
-                            <input type="number" id="precioGasolina" value="3.74" step="0.01" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                            <input type="number" id="precioGasolina" value="6.96" step="0.01" style="width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-light); font-size: 16px;">
+                            <div style="font-size: 11px; color: var(--text-gray); margin-top: 4px;">Precio actual Bolivia 2024</div>
                         </div>
                         <div>
                             <label style="display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px;">Consumo Gasolina (km/litro)</label>
@@ -1421,21 +1430,21 @@
                     <div id="resultadoAhorro" style="display: none;">
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px;">
                             <div style="background: rgba(255, 87, 34, 0.1); padding: 20px; border-radius: 12px; border: 2px solid #FF5722; text-align: center;">
-                                <div style="font-size: 13px; color: #FF8A65; margin-bottom: 8px; font-weight: 700;">⛽ COSTO GASOLINA ANUAL</div>
+                                <div style="font-size: 13px; color: #FF8A65; margin-bottom: 8px; font-weight: 700;">⛽ COSTO GASOLINA <span id="labelPeriodoGas">ANUAL</span></div>
                                 <div id="costoGasolinaAnual" style="font-size: 28px; font-weight: 800; color: #FF5722;">Bs. 4,675</div>
                                 <div style="font-size: 12px; color: var(--text-gray); margin-top: 4px;">Basado en tu consumo</div>
                             </div>
                             <div style="background: rgba(0, 200, 83, 0.1); padding: 20px; border-radius: 12px; border: 2px solid var(--primary-green); text-align: center;">
-                                <div style="font-size: 13px; color: var(--light-green); margin-bottom: 8px; font-weight: 700;">⚡ COSTO ELÉCTRICO ANUAL</div>
+                                <div style="font-size: 13px; color: var(--light-green); margin-bottom: 8px; font-weight: 700;">⚡ COSTO ELÉCTRICO <span id="labelPeriodoElec">ANUAL</span></div>
                                 <div id="costoElectricoAnual" style="font-size: 28px; font-weight: 800; color: var(--primary-green);">Bs. 1,463</div>
                                 <div style="font-size: 12px; color: var(--text-gray); margin-top: 4px;">15 kWh/100km promedio</div>
                             </div>
                         </div>
 
                         <div style="background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%); padding: 24px; border-radius: 12px; text-align: center; box-shadow: 0 8px 24px rgba(0, 200, 83, 0.3);">
-                            <div style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px;">💚 TU AHORRO ANUAL</div>
+                            <div style="font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px;">💚 TU AHORRO <span id="labelPeriodoAhorro">ANUAL</span></div>
                             <div id="ahorroTotal" style="font-size: 42px; font-weight: 900; color: white; margin-bottom: 8px;">Bs. 3,158</div>
-                            <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.15); border-radius: 8px;">
+                            <div id="ahorro5AniosContainer" style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 12px; padding: 12px; background: rgba(255,255,255,0.15); border-radius: 8px;">
                                 En 5 años ahorrarás <span id="ahorro5Anios" style="font-size: 24px; font-weight: 900;">Bs. 15,790</span>
                             </div>
                             <div style="font-size: 14px; color: rgba(255,255,255,0.9);">Recuperas la diferencia de precio en <strong id="aniosRecupera">4.7</strong> años</div>
@@ -1663,43 +1672,61 @@
             activeBtn.style.border = 'none';
         }
 
+        function actualizarPeriodo() {
+            const periodo = document.getElementById('periodo').value;
+            const kmInput = document.getElementById('kmPeriodo');
+            const kmHelp = document.getElementById('kmHelp');
+            
+            if (periodo === 'mes') {
+                kmInput.value = 600;
+                kmHelp.textContent = '20 km/día × 30 días = 600 km/mes';
+            } else {
+                kmInput.value = 7300;
+                kmHelp.textContent = '20 km/día × 365 días = 7,300 km/año';
+            }
+        }
+
         function calcularAhorro() {
             // Obtener valores (usar datos reales de la proforma como default)
-            const kmAnual = parseFloat(document.getElementById('kmAnual').value) || 7300;
-            const precioGasolina = parseFloat(document.getElementById('precioGasolina').value) || 3.74;
+            const kmPeriodo = parseFloat(document.getElementById('kmPeriodo').value) || 7300;
+            const periodo = document.getElementById('periodo').value;
+            const precioGasolina = parseFloat(document.getElementById('precioGasolina').value) || 6.96;
             const consumoGasolina = parseFloat(document.getElementById('consumoGasolina').value) || 12;
             const costoElectricidad = parseFloat(document.getElementById('costoElectricidad').value) || 0.65;
+            
+            // Convertir a km anuales si es necesario
+            const kmAnual = periodo === 'mes' ? kmPeriodo * 12 : kmPeriodo;
+            const kmCalculo = periodo === 'mes' ? kmPeriodo : kmAnual;
             
             // DATOS REALES QUANTUM E4 C. MONTAÑA (según proforma)
             // Costo electricidad: Bs. 620 cada 10,000 km = Bs. 0.062 por km
             // Para 7,300 km: 7,300 × 0.062 = Bs. 452.6 (aprox Bs. 548 con variaciones)
             const costoElectricidadPorKm = 0.062;
-            const mantenimientoElectrico = 660; // Anual según proforma
+            const mantenimientoElectrico = periodo === 'mes' ? 55 : 660; // 660/12 = 55 mensual
             const impuestosElectrico = 0; // Primer año en Cochabamba
             
             // AUTO GASOLINA 800CC (según proforma)
-            // Costo gasolina: Bs. 1,590 cada 10,000 km = Bs. 0.159 por km
-            // Para 7,300 km: 7,300 × 0.159 = Bs. 1,160.7 (aprox Bs. 2,275 con consumo real)
-            const litrosGasolinaAnual = kmAnual / consumoGasolina;
-            const mantenimientoGasolina = 1161; // Anual según proforma
-            const impuestosGasolina = 930; // Anual según proforma
+            const litrosGasolinaPeriodo = kmCalculo / consumoGasolina;
+            const mantenimientoGasolina = periodo === 'mes' ? 97 : 1161; // 1161/12 = 97 mensual
+            const impuestosGasolina = periodo === 'mes' ? 78 : 930; // 930/12 = 78 mensual
             
             // Cálculos basados en datos reales
-            const electricidadAnual = kmAnual * costoElectricidadPorKm;
-            const costoElectricoTotal = electricidadAnual + mantenimientoElectrico + impuestosElectrico;
+            const electricidadPeriodo = kmCalculo * costoElectricidadPorKm;
+            const costoElectricoTotal = electricidadPeriodo + mantenimientoElectrico + impuestosElectrico;
             
-            const gasolinaAnual = litrosGasolinaAnual * precioGasolina;
-            const costoGasolinaTotal = gasolinaAnual + mantenimientoGasolina + impuestosGasolina;
+            const gasolinaPeriodo = litrosGasolinaPeriodo * precioGasolina;
+            const costoGasolinaTotal = gasolinaPeriodo + mantenimientoGasolina + impuestosGasolina;
             
-            const ahorroAnual = costoGasolinaTotal - costoElectricoTotal;
+            const ahorroPeriodo = costoGasolinaTotal - costoElectricoTotal;
+            const ahorroAnual = periodo === 'mes' ? ahorroPeriodo * 12 : ahorroPeriodo;
             const ahorro5Anios = ahorroAnual * 5;
             
             // Diferencia de precio promedio entre eléctrico y gasolina
             const diferenciaPrecios = 15000; // Bs.
             const aniosRecuperacion = diferenciaPrecios / ahorroAnual;
             
-            // Impacto ambiental
-            // Promedio: 1 litro de gasolina = 2.3 kg de CO2
+            // Impacto ambiental (siempre anual)
+            const litrosGasolinaAnual = kmAnual / consumoGasolina;
             const co2PorLitro = 2.3;
             const co2Anual = (litrosGasolinaAnual * co2PorLitro) / 1000; // en toneladas
             
@@ -1707,12 +1734,28 @@
             const co2PorArbol = 0.021; // toneladas
             const arbolesEquivalentes = Math.round(co2Anual / co2PorArbol);
             
+            // Actualizar labels según periodo
+            const labelTexto = periodo === 'mes' ? 'MENSUAL' : 'ANUAL';
+            document.getElementById('labelPeriodoGas').textContent = labelTexto;
+            document.getElementById('labelPeriodoElec').textContent = labelTexto;
+            document.getElementById('labelPeriodoAhorro').textContent = labelTexto;
+            
             // Actualizar resultados
             document.getElementById('costoGasolinaAnual').textContent = 'Bs. ' + Math.round(costoGasolinaTotal).toLocaleString();
             document.getElementById('costoElectricoAnual').textContent = 'Bs. ' + Math.round(costoElectricoTotal).toLocaleString();
-            document.getElementById('ahorroTotal').textContent = 'Bs. ' + Math.round(ahorroAnual).toLocaleString();
+            document.getElementById('ahorroTotal').textContent = 'Bs. ' + Math.round(ahorroPeriodo).toLocaleString();
             document.getElementById('ahorro5Anios').textContent = 'Bs. ' + Math.round(ahorro5Anios).toLocaleString();
             document.getElementById('aniosRecupera').textContent = aniosRecuperacion.toFixed(1);
+            
+            // Mostrar/ocultar ahorro 5 años según periodo
+            const ahorro5Container = document.getElementById('ahorro5AniosContainer');
+            if (periodo === 'mes') {
+                ahorro5Container.style.display = 'block';
+                ahorro5Container.innerHTML = 'En 1 año ahorrarás <span style="font-size: 24px; font-weight: 900;">Bs. ' + Math.round(ahorroAnual).toLocaleString() + '</span>';
+            } else {
+                ahorro5Container.style.display = 'block';
+                ahorro5Container.innerHTML = 'En 5 años ahorrarás <span style="font-size: 24px; font-weight: 900;">Bs. ' + Math.round(ahorro5Anios).toLocaleString() + '</span>';
+            }
             
             // Impacto ambiental
             document.getElementById('arbolesAhorro').textContent = arbolesEquivalentes;
